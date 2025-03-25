@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TargetScan - Dual-Target Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-mode">
+    <header>
+        <h1>TargetScan</h1>
+        <div class="theme-toggle">
+            <button id="theme-switch">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="upload-section">
+            <div class="upload-container">
+                <h2>Upload Target Image</h2>
+                <div class="upload-actions">
+                    <label for="file-input" class="upload-button">
+                        <i class="fas fa-file-upload"></i> 
+                        <span>Choose File</span>
+                    </label>
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                    
+                    <button id="camera-button" class="upload-button">
+                        <i class="fas fa-camera"></i>
+                        <span>Take Photo</span>
+                    </button>
+                </div>
+                <div id="camera-container" hidden>
+                    <video id="camera-preview" autoplay playsinline></video>
+                    <button id="capture-button">
+                        <i class="fas fa-circle"></i>
+                    </button>
+                    <button id="close-camera">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis-section" class="hidden">
+            <div class="target-toggle">
+                <button id="left-target-btn" class="target-btn active">Left Target</button>
+                <button id="right-target-btn" class="target-btn">Right Target</button>
+            </div>
+            
+            <div class="target-container">
+                <div class="target-display">
+                    <canvas id="target-canvas"></canvas>
+                    <div class="shot-counter">
+                        <span id="shot-count">0</span>/10 shots
+                    </div>
+                </div>
+                
+                <div class="target-actions">
+                    <button id="auto-detect-btn" class="action-btn">
+                        <i class="fas fa-magic"></i> Auto Detect
+                    </button>
+                    <button id="manual-mode-btn" class="action-btn">
+                        <i class="fas fa-crosshairs"></i> Manual Placement
+                    </button>
+                    <button id="clear-shots-btn" class="action-btn">
+                        <i class="fas fa-trash"></i> Clear Shots
+                    </button>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <h3>Target Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Score</div>
+                        <div id="total-score" class="stat-value">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Group Size</div>
+                        <div id="group-size" class="stat-value">0.0"</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Mean Radius</div>
+                        <div id="mean-radius" class="stat-value">0.0"</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Windage</div>
+                        <div id="windage" class="stat-value">0.0"</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Elevation</div>
+                        <div id="elevation" class="stat-value">0.0"</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="shot-table-container">
+                <h3>Shot Details</h3>
+                <table id="shot-table">
+                    <thead>
+                        <tr>
+                            <th>Shot #</th>
+                            <th>Score</th>
+                            <th>X Position</th>
+                            <th>Y Position</th>
+                            <th>Distance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shot-table-body">
+                        <!-- Shot data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="export-container">
+                <button id="export-btn" class="action-btn">
+                    <i class="fas fa-file-export"></i> Export Results
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>TargetScan v1.0 | Dual-Target Analysis</p>
+    </footer>
+
+    <div id="instructions-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>How to Use TargetScan</h2>
+            <ol>
+                <li>Upload a target image using the file input or camera</li>
+                <li>Select which target to analyze (left or right)</li>
+                <li>Use auto-detect or manually place shots</li>
+                <li>View your statistics and shot details</li>
+                <li>Export your results when finished</li>
+            </ol>
+            <p>For manual shot placement, click on the target where your shots landed.</p>
+            <button id="modal-ok-btn" class="action-btn">Got it!</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
