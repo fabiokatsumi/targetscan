@@ -1,0 +1,632 @@
+/* styles.css - Main stylesheet for TargetScan Web App */
+
+:root {
+    --primary-color: #2196F3;
+    --primary-dark: #1976D2;
+    --secondary-color: #FF9800;
+    --danger-color: #F44336;
+    --success-color: #4CAF50;
+    --dark-color: #333;
+    --light-color: #f4f4f4;
+    --grey-color: #ccc;
+    --dark-grey: #666;
+    --light-grey: #eee;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --border-radius: 4px;
+    --transition: all 0.3s ease;
+}
+
+/* Dark mode variables */
+.dark-mode {
+    --light-color: #222;
+    --dark-color: #f4f4f4;
+    --grey-color: #555;
+    --dark-grey: #aaa;
+    --light-grey: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    transition: var(--transition);
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--grey-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--dark-grey);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-btn:hover {
+    color: var(--primary-color);
+}
+
+/* Main content styles */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
+
+/* Screen styles */
+.screen {
+    display: none;
+    flex: 1;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Welcome screen */
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    max-width: 600px;
+    padding: 30px;
+}
+
+.icon-large {
+    font-size: 80px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.welcome-content h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.welcome-content p {
+    font-size: 1.1rem;
+    color: var(--dark-grey);
+    margin-bottom: 30px;
+}
+
+.upload-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Analysis screen */
+.analysis-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    background-color: var(--light-grey);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+#targetCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay p {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+}
+
+/* Control panel */
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    background-color: var(--light-grey);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.control-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: none;
+    background: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    flex: 1;
+    text-align: center;
+}
+
+.control-btn i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.control-btn span {
+    font-size: 12px;
+}
+
+#analyzeBtn {
+    color: var(--primary-color);
+}
+
+#addShotBtn {
+    color: var(--secondary-color);
+}
+
+#removeBtn {
+    color: var(--danger-color);
+}
+
+#targetTypeBtn {
+    color: var(--success-color);
+}
+
+.control-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.control-btn.active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Results panel */
+.results-panel {
+    padding: 15px;
+    background-color: var(--light-grey);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.score-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.statistics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.stat-box {
+    padding: 10px;
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.stat-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: var(--dark-grey);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Camera screen */
+.camera-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cameraView {
+    width: 100%;
+    max-height: 80vh;
+    background-color: var(--dark-color);
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.target-guide {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed white;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.camera-overlay p {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+}
+
+.camera-controls {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Button styles */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn i {
+    font-size: 18px;
+}
+
+.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.secondary {
+    background-color: var(--light-grey);
+    color: var(--dark-color);
+}
+
+.secondary:hover {
+    background-color: var(--grey-color);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--grey-color);
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--dark-grey);
+    transition: var(--transition);
+}
+
+.close-btn:hover {
+    color: var(--danger-color);
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.modal-footer {
+    padding: 15px;
+    border-top: 1px solid var(--grey-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--grey-color);
+}
+
+th {
+    background-color: var(--light-grey);
+    font-weight: bold;
+}
+
+/* Target type options */
+.target-type-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.target-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--light-grey);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.target-option i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.target-option:hover {
+    border-color: var(--primary-color);
+}
+
+.target-option.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+/* Form controls */
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid var(--grey-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+}
+
+/* Settings styles */
+.settings-group {
+    margin-bottom: 20px;
+}
+
+.settings-group h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+/* Switch toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--grey-color);
+    transition: var(--transition);
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: var(--transition);
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Help content styles */
+.modal-body h3 {
+    margin: 15px 0 10px;
+    font-size: 1.2rem;
+}
+
+.modal-body ol, .modal-body ul {
+    margin-left: 20px;
+}
+
+.modal-body li {
+    margin-bottom: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .statistics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .score-display {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .upload-options {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .statistics {
+        grid-template-columns: 1fr;
+    }
+    
+    .control-panel {
+        flex-wrap: wrap;
+    }
+    
+    .control-btn {
+        flex-basis: 40%;
+    }
+    
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+}

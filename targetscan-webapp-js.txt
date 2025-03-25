@@ -1,0 +1,36 @@
+// app.js - Main JavaScript for TargetScan Web App
+
+// Wait for OpenCV.js to be loaded
+function onOpenCvReady() {
+    document.body.classList.add('opencv-ready');
+    console.log('OpenCV.js is ready');
+    initApp();
+}
+
+// Check if OpenCV is already loaded
+if (window.cv) {
+    onOpenCvReady();
+} else {
+    // If not loaded yet, set up a callback
+    window.onOpenCvReady = onOpenCvReady;
+}
+
+// Main application initialization
+function initApp() {
+    // DOM elements
+    const elements = {
+        // Screens
+        welcomeScreen: document.getElementById('welcomeScreen'),
+        analysisScreen: document.getElementById('analysisScreen'),
+        cameraScreen: document.getElementById('cameraScreen'),
+        
+        // Buttons and inputs
+        uploadBtn: document.getElementById('uploadBtn'),
+        fileInput: document.getElementById('fileInput'),
+        cameraBtn: document.getElementById('cameraBtn'),
+        takePictureBtn: document.getElementById('takePictureBtn'),
+        cancelCameraBtn: document.getElementById('cancelCameraBtn'),
+        analyzeBtn: document.getElementById('analyzeBtn'),
+        addShotBtn: document.getElementById('addShotBtn'),
+        removeBtn: document.getElementById('removeBtn'),
+        targetTypeBtn: document.getElementById('targetTypeBtn'),

@@ -1,0 +1,306 @@
+// index.html - Main HTML structure
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TargetScan - Shooting Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-bullseye"></i>
+                <h1>TargetScan</h1>
+            </div>
+            <nav>
+                <button id="helpBtn" class="nav-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button id="settingsBtn" class="nav-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main content area -->
+        <main>
+            <!-- Welcome screen (visible when no image is loaded) -->
+            <div id="welcomeScreen" class="screen active">
+                <div class="welcome-content">
+                    <i class="fas fa-bullseye icon-large"></i>
+                    <h2>Welcome to TargetScan</h2>
+                    <p>Analyze your shooting performance with precision</p>
+                    <div class="upload-options">
+                        <button id="cameraBtn" class="btn primary">
+                            <i class="fas fa-camera"></i> Take Photo
+                        </button>
+                        <button id="uploadBtn" class="btn primary">
+                            <i class="fas fa-upload"></i> Upload Target
+                        </button>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis screen (visible when image is loaded) -->
+            <div id="analysisScreen" class="screen">
+                <div class="analysis-container">
+                    <!-- Image display area -->
+                    <div class="image-container" id="imageContainer">
+                        <canvas id="targetCanvas"></canvas>
+                        <div id="addShotOverlay" class="overlay" style="display: none;">
+                            <p>Tap to add shot</p>
+                        </div>
+                    </div>
+
+                    <!-- Control panel -->
+                    <div class="control-panel">
+                        <button id="analyzeBtn" class="control-btn">
+                            <i class="fas fa-magic"></i>
+                            <span>Analyze</span>
+                        </button>
+                        <button id="addShotBtn" class="control-btn">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Add Shot</span>
+                        </button>
+                        <button id="removeBtn" class="control-btn">
+                            <i class="fas fa-minus-circle"></i>
+                            <span>Remove</span>
+                        </button>
+                        <button id="targetTypeBtn" class="control-btn">
+                            <i class="fas fa-crosshairs"></i>
+                            <span>Target</span>
+                        </button>
+                    </div>
+
+                    <!-- Results panel -->
+                    <div class="results-panel">
+                        <div class="score-display">
+                            <h2>Total Score: <span id="totalScore">0</span></h2>
+                            <button id="detailsBtn" class="btn secondary">
+                                <i class="fas fa-list"></i> Shot Details
+                            </button>
+                        </div>
+                        
+                        <div class="statistics">
+                            <div class="stat-box">
+                                <div class="stat-title">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    <span>Group Size</span>
+                                </div>
+                                <div class="stat-value" id="groupSize">0.0 mm</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">
+                                    <i class="fas fa-circle-notch"></i>
+                                    <span>Mean Radius</span>
+                                </div>
+                                <div class="stat-value" id="meanRadius">0.0 mm</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                    <span>Windage</span>
+                                </div>
+                                <div class="stat-value" id="windage">0.0 mm</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                    <span>Elevation</span>
+                                </div>
+                                <div class="stat-value" id="elevation">0.0 mm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camera screen -->
+            <div id="cameraScreen" class="screen">
+                <div class="camera-container">
+                    <video id="cameraView" autoplay playsinline></video>
+                    <div class="camera-overlay">
+                        <div class="target-guide"></div>
+                        <p>Position the target in the center</p>
+                    </div>
+                    <div class="camera-controls">
+                        <button id="takePictureBtn" class="btn primary">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <button id="cancelCameraBtn" class="btn secondary">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Shot Details -->
+    <div id="shotDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shot Details</h2>
+                <button class="close-btn" id="closeShotDetailsBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="shotDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Shot #</th>
+                            <th>Score</th>
+                            <th>X (mm)</th>
+                            <th>Y (mm)</th>
+                            <th>Distance (mm)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shotDetailsBody">
+                        <!-- Shot details will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button id="exportResultsBtn" class="btn primary">
+                    <i class="fas fa-file-export"></i> Export Results
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Target Type Selection -->
+    <div id="targetTypeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Target Type</h2>
+                <button class="close-btn" id="closeTargetTypeBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="target-type-options">
+                    <button class="target-option" data-type="standard">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Standard Target</span>
+                    </button>
+                    <button class="target-option" data-type="airRifle">
+                        <i class="fas fa-dot-circle"></i>
+                        <span>Air Rifle Target</span>
+                    </button>
+                    <button class="target-option" data-type="custom">
+                        <i class="fas fa-ruler"></i>
+                        <span>Custom Calibration</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Custom Calibration -->
+    <div id="calibrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Target Calibration</h2>
+                <button class="close-btn" id="closeCalibrationBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Enter the actual diameter of the 10-ring in millimeters:</p>
+                <input type="number" id="calibrationInput" placeholder="e.g., 45.5" step="0.1" min="1">
+            </div>
+            <div class="modal-footer">
+                <button id="cancelCalibrationBtn" class="btn secondary">Cancel</button>
+                <button id="confirmCalibrationBtn" class="btn primary">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Help -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>How to Use TargetScan</h2>
+                <button class="close-btn" id="closeHelpBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Getting Started</h3>
+                <ol>
+                    <li>Take a photo of your target or upload an existing one</li>
+                    <li>Ensure good lighting and a clear view of the target</li>
+                    <li>Position the target so it fills most of the frame</li>
+                </ol>
+
+                <h3>Analyzing Your Target</h3>
+                <ol>
+                    <li>Press "Analyze" to automatically detect the target and shots</li>
+                    <li>If shots aren't detected automatically, use "Add Shot" to manually mark them</li>
+                    <li>Use "Remove" to remove the last added shot</li>
+                    <li>Select the appropriate target type or calibrate for accurate scoring</li>
+                </ol>
+
+                <h3>Understanding Results</h3>
+                <ul>
+                    <li><strong>Group Size:</strong> Distance between the farthest shots (extreme spread)</li>
+                    <li><strong>Mean Radius:</strong> Average distance of shots from center</li>
+                    <li><strong>Windage:</strong> Average horizontal deviation (- left, + right)</li>
+                    <li><strong>Elevation:</strong> Average vertical deviation (- down, + up)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Settings -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="closeSettingsBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h3>Display</h3>
+                    <div class="setting-item">
+                        <label for="darkModeToggle">Dark Mode</label>
+                        <label class="switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Measurement Units</h3>
+                    <div class="setting-item">
+                        <label>Units</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="units" value="mm" checked> Millimeters
+                            </label>
+                            <label>
+                                <input type="radio" name="units" value="in"> Inches
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettingsBtn" class="btn primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/opencv.js/4.5.5/opencv.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
